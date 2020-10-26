@@ -177,11 +177,11 @@ public class ByteBufExamples {
      */
     public static void byteBufSlice() {
         Charset utf8 = Charset.forName("UTF-8");
-        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8);
-        ByteBuf sliced = buf.slice(0, 15);
-        System.out.println(sliced.toString(utf8));
-        buf.setByte(0, (byte)'J');
-        assert buf.getByte(0) == sliced.getByte(0);
+        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8); // 创建一个用于保存给定字符串的字节的ByteBuf
+        ByteBuf sliced = buf.slice(0, 15); // 创建该ByteBuf 从索引0 开始到索引15结束的一个新切片
+        System.out.println(sliced.toString(utf8)); // 将打印“Netty in Action”
+        buf.setByte(0, (byte)'J'); // 更新索引0 处的字节
+        assert buf.getByte(0) == sliced.getByte(0); // 将会成功，因为数据是共享的，对其中一个所做的更改对另外一个也是可见的
     }
 
     /**
@@ -189,11 +189,11 @@ public class ByteBufExamples {
      */
     public static void byteBufCopy() {
         Charset utf8 = Charset.forName("UTF-8");
-        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8);
-        ByteBuf copy = buf.copy(0, 15);
-        System.out.println(copy.toString(utf8));
-        buf.setByte(0, (byte)'J');
-        assert buf.getByte(0) != copy.getByte(0);
+        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8); // 创建ByteBuf 以保存所提供的字符串的字节
+        ByteBuf copy = buf.copy(0, 15); // 创建该ByteBuf 从索引0 开始到索引15结束的分段的副本
+        System.out.println(copy.toString(utf8)); // 将打印“Netty in Action”
+        buf.setByte(0, (byte)'J'); // 更新索引0 处的字节
+        assert buf.getByte(0) != copy.getByte(0); // 将会成功，因为数据不是共享的
     }
 
     /**
@@ -201,13 +201,13 @@ public class ByteBufExamples {
      */
     public static void byteBufSetGet() {
         Charset utf8 = Charset.forName("UTF-8");
-        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8);
-        System.out.println((char)buf.getByte(0));
-        int readerIndex = buf.readerIndex();
+        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8); // 创建一个新的ByteBuf以保存给定字符串的字节
+        System.out.println((char)buf.getByte(0)); // 打印第一个字符'N'
+        int readerIndex = buf.readerIndex(); // 存储当前的readerIndex 和writerIndex
         int writerIndex = buf.writerIndex();
-        buf.setByte(0, (byte)'B');
-        System.out.println((char)buf.getByte(0));
-        assert readerIndex == buf.readerIndex();
+        buf.setByte(0, (byte)'B'); // 将索引0 处的字节更新为字符'B'
+        System.out.println((char)buf.getByte(0)); // 打印第一个字符，现在是'B'
+        assert readerIndex == buf.readerIndex(); // 将会成功，因为这些操作并不会修改相应的索引
         assert writerIndex == buf.writerIndex();
     }
 
@@ -216,13 +216,13 @@ public class ByteBufExamples {
      */
     public static void byteBufWriteRead() {
         Charset utf8 = Charset.forName("UTF-8");
-        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8);
-        System.out.println((char)buf.readByte());
-        int readerIndex = buf.readerIndex();
-        int writerIndex = buf.writerIndex();
-        buf.writeByte((byte)'?');
+        ByteBuf buf = Unpooled.copiedBuffer("Netty in Action rocks!", utf8); // 创建一个新的ByteBuf 以保存给定字符串的字节
+        System.out.println((char)buf.readByte()); // 打印第一个字符'N'
+        int readerIndex = buf.readerIndex(); // 存储当前的readerIndex
+        int writerIndex = buf.writerIndex(); // 存储当前的writerIndex
+        buf.writeByte((byte)'?'); // 将字符'?'追加到缓冲区
         assert readerIndex == buf.readerIndex();
-        assert writerIndex != buf.writerIndex();
+        assert writerIndex != buf.writerIndex(); // 将会成功，因为writeByte()方法移动了writerIndex
     }
 
     private static void handleArray(byte[] array, int offset, int len) {}
@@ -232,9 +232,9 @@ public class ByteBufExamples {
      */
     public static void obtainingByteBufAllocatorReference(){
         Channel channel = CHANNEL_FROM_SOMEWHERE; //get reference form somewhere
-        ByteBufAllocator allocator = channel.alloc();
+        ByteBufAllocator allocator = channel.alloc(); // 从Channel 获取一个到ByteBufAllocator 的引用
         //...
-        ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //get reference form somewhere
+        ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //get reference form somewhere: 从ChannelHandlerContext 获取一个到ByteBufAllocator 的引用
         ByteBufAllocator allocator2 = ctx.alloc();
         //...
     }
@@ -244,10 +244,10 @@ public class ByteBufExamples {
      * */
     public static void referenceCounting(){
         Channel channel = CHANNEL_FROM_SOMEWHERE; //get reference form somewhere
-        ByteBufAllocator allocator = channel.alloc();
+        ByteBufAllocator allocator = channel.alloc(); // 从Channel 获取ByteBufAllocator
         //...
-        ByteBuf buffer = allocator.directBuffer();
-        assert buffer.refCnt() == 1;
+        ByteBuf buffer = allocator.directBuffer(); // 从ByteBufAllocator分配一个ByteBuf
+        assert buffer.refCnt() == 1; // 检查引用计数是否为预期的1
         //...
     }
 
@@ -256,7 +256,7 @@ public class ByteBufExamples {
      */
     public static void releaseReferenceCountedObject(){
         ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
-        boolean released = buffer.release();
+        boolean released = buffer.release(); // 减少到该对象的活动引用。当减少到0 时，该对象被释放，并且该方法返回true
         //...
     }
 
