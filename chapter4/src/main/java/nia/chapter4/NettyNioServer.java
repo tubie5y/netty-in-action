@@ -18,35 +18,29 @@ import java.nio.charset.Charset;
  */
 public class NettyNioServer {
     public void server(int port) throws Exception {
-        final ByteBuf buf =
-                Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hi!\r\n",
-                        Charset.forName("UTF-8")));
-        NioEventLoopGroup group = new NioEventLoopGroup();
+        final ByteBuf buf = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hi!\r\n", Charset.forName("UTF-8")));
+        NioEventLoopGroup group = new NioEventLoopGroup(); // TODO: 为非阻塞模式使用NioEventLoopGroup
         try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(group).channel(NioServerSocketChannel.class)
+            ServerBootstrap b = new ServerBootstrap(); // 创建ServerBootstrap
+            b.group(group)
+                    .channel(NioServerSocketChannel.class) // TODO
                     .localAddress(new InetSocketAddress(port))
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                    .childHandler(new ChannelInitializer<SocketChannel>() { // 指定ChannelInitializer，对于每个已接受的连接都调用它
                                       @Override
-                                      public void initChannel(SocketChannel ch)
-                                              throws Exception {
-                                              ch.pipeline().addLast(
-                                                  new ChannelInboundHandlerAdapter() {
-                                                      @Override
-                                                      public void channelActive(
-                                                              ChannelHandlerContext ctx) throws Exception {
-                                                                ctx.writeAndFlush(buf.duplicate())
-                                                                  .addListener(
-                                                                          ChannelFutureListener.CLOSE);
-                                                      }
-                                                  });
+                                      public void initChannel(SocketChannel ch) throws Exception {
+                                          ch.pipeline().addLast(new ChannelInboundHandlerAdapter() { // 添加ChannelInboundHandlerAdapter 以接收和处理事件
+                                              @Override
+                                              public void channelActive(ChannelHandlerContext ctx) throws Exception { // 将消息写到客户端，并添加ChannelFutureListener，以便消息一被写完就关闭连接
+                                                  ctx.writeAndFlush(buf.duplicate()).addListener(ChannelFutureListener.CLOSE);
+                                              }
+                                          });
                                       }
                                   }
                     );
-            ChannelFuture f = b.bind().sync();
+            ChannelFuture f = b.bind().sync(); // 绑定服务器以接受连接
             f.channel().closeFuture().sync();
         } finally {
-            group.shutdownGracefully().sync();
+            group.shutdownGracefully().sync(); // 释放所有的资源
         }
     }
 }
