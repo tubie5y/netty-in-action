@@ -11,14 +11,14 @@ import java.util.List;
 public class EventLoopExamples {
     /**
      * Listing 7.1 Executing tasks in an event loop
-     * */
+     */
     public static void executeTaskInEventLoop() {
         boolean terminated = true;
         //...
         while (!terminated) {
-            List<Runnable> readyEvents = blockUntilEventsReady();
-            for (Runnable ev: readyEvents) {
-                ev.run();
+            List<Runnable> readyEvents = blockUntilEventsReady(); // 阻塞，直到有事件已经就绪可被运行
+            for (Runnable ev : readyEvents) {
+                ev.run(); // 循环遍历，并处理所有的事件
             }
         }
     }
