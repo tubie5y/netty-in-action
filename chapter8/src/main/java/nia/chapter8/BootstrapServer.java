@@ -21,24 +21,22 @@ public class BootstrapServer {
 
     /**
      * Listing 8.4 Bootstrapping a server
-     * */
+     */
     public void bootstrap() {
         NioEventLoopGroup group = new NioEventLoopGroup();
-        ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(group)
-            .channel(NioServerSocketChannel.class)
-            .childHandler(new SimpleChannelInboundHandler<ByteBuf>() {
-                @Override
-                protected void channelRead0(ChannelHandlerContext channelHandlerContext,
-                    ByteBuf byteBuf) throws Exception {
-                    System.out.println("Received data");
-                }
-            });
-        ChannelFuture future = bootstrap.bind(new InetSocketAddress(8080));
+        ServerBootstrap bootstrap = new ServerBootstrap(); // 创建ServerBootstrap
+        bootstrap.group(group) // 设置EventLoopGroup，其提供了用于处理Channel 事件的EventLoop
+                .channel(NioServerSocketChannel.class) // 指定要使用的Channel 实现
+                .childHandler(new SimpleChannelInboundHandler<ByteBuf>() { // 设置用于处理已被接受的子Channel的I/O及数据的ChannelInboundHandler
+                    @Override
+                    protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
+                        System.out.println("Received data");
+                    }
+                });
+        ChannelFuture future = bootstrap.bind(new InetSocketAddress(8080)); // 通过配置好的ServerBootstrap的实例绑定该Channel
         future.addListener(new ChannelFutureListener() {
             @Override
-            public void operationComplete(ChannelFuture channelFuture)
-                throws Exception {
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if (channelFuture.isSuccess()) {
                     System.out.println("Server bound");
                 } else {
