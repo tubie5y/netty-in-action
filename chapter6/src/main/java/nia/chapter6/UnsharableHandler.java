@@ -9,15 +9,15 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-@Sharable
+@Sharable // 使用注解@Sharable标注
 public class UnsharableHandler extends ChannelInboundHandlerAdapter {
     private int count;
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        count++;
-        System.out.println("inboundBufferUpdated(...) called the "
-                + count + " time");
-        ctx.fireChannelRead(msg);
+        count++; // 将count 字段的值加1
+        System.out.println("inboundBufferUpdated(...) called the " + count + " time");
+        ctx.fireChannelRead(msg); // 记录方法调用，并转发给下一个ChannelHandler
     }
 }
 

@@ -11,11 +11,13 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public class WriteHandler extends ChannelHandlerAdapter {
     private ChannelHandlerContext ctx;
+
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
-        this.ctx = ctx;
+        this.ctx = ctx; // 存储到ChannelHandlerContext的引用以供稍后使用
     }
-    public void send(String msg) {
+
+    public void send(String msg) { // 使用之前存储的到ChannelHandlerContext的引用来发送消息
         ctx.writeAndFlush(msg);
     }
 }
