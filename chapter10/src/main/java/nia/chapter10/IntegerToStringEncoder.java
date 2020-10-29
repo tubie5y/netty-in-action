@@ -10,12 +10,10 @@ import java.util.List;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-public class IntegerToStringEncoder
-    extends MessageToMessageEncoder<Integer> {
+public class IntegerToStringEncoder extends MessageToMessageEncoder<Integer> { // 扩展了MessageToMessageEncoder
     @Override
-    public void encode(ChannelHandlerContext ctx, Integer msg,
-        List<Object> out) throws Exception {
-        out.add(String.valueOf(msg));
+    public void encode(ChannelHandlerContext ctx, Integer msg, List<Object> out) throws Exception {
+        out.add(String.valueOf(msg)); // 将Integer 转换为String，并将其添加到List 中
     }
 }
 

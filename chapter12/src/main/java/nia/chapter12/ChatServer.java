@@ -19,12 +19,11 @@ import java.net.InetSocketAddress;
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class ChatServer {
-    private final ChannelGroup channelGroup =
-        new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
+    private final ChannelGroup channelGroup = new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE); // 创建DefaultChannelGroup，其将保存所有已经连接的WebSocket
     private final EventLoopGroup group = new NioEventLoopGroup();
     private Channel channel;
 
-    public ChannelFuture start(InetSocketAddress address) {
+    public ChannelFuture start(InetSocketAddress address) { // 引导服务器
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(group)
              .channel(NioServerSocketChannel.class)
@@ -35,12 +34,11 @@ public class ChatServer {
         return future;
     }
 
-    protected ChannelInitializer<Channel> createInitializer(
-        ChannelGroup group) {
+    protected ChannelInitializer<Channel> createInitializer(ChannelGroup group) { // 创建ChatServerInitializer
         return new ChatServerInitializer(group);
     }
 
-    public void destroy() {
+    public void destroy() { // 处理服务器关闭，并释放所有的资源
         if (channel != null) {
             channel.close();
         }
@@ -55,8 +53,7 @@ public class ChatServer {
         }
         int port = Integer.parseInt(args[0]);
         final ChatServer endpoint = new ChatServer();
-        ChannelFuture future = endpoint.start(
-                new InetSocketAddress(port));
+        ChannelFuture future = endpoint.start(new InetSocketAddress(port));
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
