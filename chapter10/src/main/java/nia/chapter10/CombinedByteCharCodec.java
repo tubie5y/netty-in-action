@@ -8,9 +8,8 @@ import io.netty.channel.CombinedChannelDuplexHandler;
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 
-public class CombinedByteCharCodec extends
-    CombinedChannelDuplexHandler<ByteToCharDecoder, CharToByteEncoder> {
+public class CombinedByteCharCodec extends CombinedChannelDuplexHandler<ByteToCharDecoder, CharToByteEncoder> { // 通过该解码器和编码器实现参数化CombinedByteCharCodec
     public CombinedByteCharCodec() {
-        super(new ByteToCharDecoder(), new CharToByteEncoder());
+        super(new ByteToCharDecoder(), new CharToByteEncoder()); // 将委托实例传递给父类
     }
 }

@@ -20,37 +20,31 @@ public class WebSocketServerInitializer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ch.pipeline().addLast(
-            new HttpServerCodec(),
-            new HttpObjectAggregator(65536),
-            new WebSocketServerProtocolHandler("/websocket"),
-            new TextFrameHandler(),
-            new BinaryFrameHandler(),
-            new ContinuationFrameHandler());
+                new HttpServerCodec(),
+                new HttpObjectAggregator(65536), //64Kb: 为握手提供聚合的HttpRequest
+                new WebSocketServerProtocolHandler("/websocket"), // 如果被请求的端点是"/websocket"，则处理该升级握手　
+                new TextFrameHandler(), // TextFrameHandler 处理TextWebSocketFrame
+                new BinaryFrameHandler(), // BinaryFrameHandler 处理BinaryWebSocketFrame　
+                new ContinuationFrameHandler()); // ContinuationFrameHandler 处理ContinuationWebSocketFrame　
     }
 
-    public static final class TextFrameHandler extends
-        SimpleChannelInboundHandler<TextWebSocketFrame> {
+    public static final class TextFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
         @Override
-        public void channelRead0(ChannelHandlerContext ctx,
-            TextWebSocketFrame msg) throws Exception {
+        public void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
             // Handle text frame
         }
     }
 
-    public static final class BinaryFrameHandler extends
-        SimpleChannelInboundHandler<BinaryWebSocketFrame> {
+    public static final class BinaryFrameHandler extends SimpleChannelInboundHandler<BinaryWebSocketFrame> {
         @Override
-        public void channelRead0(ChannelHandlerContext ctx,
-            BinaryWebSocketFrame msg) throws Exception {
+        public void channelRead0(ChannelHandlerContext ctx, BinaryWebSocketFrame msg) throws Exception {
             // Handle binary frame
         }
     }
 
-    public static final class ContinuationFrameHandler extends
-        SimpleChannelInboundHandler<ContinuationWebSocketFrame> {
+    public static final class ContinuationFrameHandler extends SimpleChannelInboundHandler<ContinuationWebSocketFrame> {
         @Override
-        public void channelRead0(ChannelHandlerContext ctx,
-            ContinuationWebSocketFrame msg) throws Exception {
+        public void channelRead0(ChannelHandlerContext ctx, ContinuationWebSocketFrame msg) throws Exception {
             // Handle continuation frame
         }
     }
