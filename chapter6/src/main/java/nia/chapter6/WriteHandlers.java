@@ -27,10 +27,8 @@ public class WriteHandlers {
      * */
     public static void writeViaChannel() {
         ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //get reference form somewhere
-        Channel channel = ctx.channel();
-        channel.write(Unpooled.copiedBuffer("Netty in Action",
-                CharsetUtil.UTF_8));
-
+        Channel channel = ctx.channel(); // 获取到与ChannelHandlerContext相关联的Channel 的引用
+        channel.write(Unpooled.copiedBuffer("Netty in Action", CharsetUtil.UTF_8)); // 通过Channel 写入缓冲区
     }
 
     /**
@@ -38,18 +36,16 @@ public class WriteHandlers {
      * */
     public static void writeViaChannelPipeline() {
         ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //get reference form somewhere
-        ChannelPipeline pipeline = ctx.pipeline(); //get reference form somewhere
-        pipeline.write(Unpooled.copiedBuffer("Netty in Action",
-                CharsetUtil.UTF_8));
-
+        ChannelPipeline pipeline = ctx.pipeline(); //get reference form somewhere: 获取到与ChannelHandlerContext相关联的ChannelPipeline 的引用
+        pipeline.write(Unpooled.copiedBuffer("Netty in Action", CharsetUtil.UTF_8)); // 通过ChannelPipeline写入缓冲区
     }
 
     /**
      * Listing 6.8 Calling ChannelHandlerContext write()
      * */
     public static void writeViaChannelHandlerContext() {
-        ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //get reference form somewhere;
-        ctx.write(Unpooled.copiedBuffer("Netty in Action", CharsetUtil.UTF_8));
+        ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //get reference form somewhere; 获取到ChannelHandlerContext的引用
+        ctx.write(Unpooled.copiedBuffer("Netty in Action", CharsetUtil.UTF_8)); // write()方法将把缓冲区数据发送到下一个ChannelHandler
     }
 
 }

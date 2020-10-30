@@ -14,10 +14,10 @@ import java.io.FileInputStream;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-public class ChunkedWriteHandlerInitializer
-    extends ChannelInitializer<Channel> {
+public class ChunkedWriteHandlerInitializer extends ChannelInitializer<Channel> {
     private final File file;
     private final SslContext sslCtx;
+
     public ChunkedWriteHandlerInitializer(File file, SslContext sslCtx) {
         this.file = file;
         this.sslCtx = sslCtx;
@@ -26,20 +26,17 @@ public class ChunkedWriteHandlerInitializer
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        pipeline.addLast(new SslHandler(sslCtx.newEngine(ch.alloc())));
-        pipeline.addLast(new ChunkedWriteHandler());
-        pipeline.addLast(new WriteStreamHandler());
+        pipeline.addLast(new SslHandler(sslCtx.newEngine(ch.alloc()))); // 将SslHandler 添加到ChannelPipeline 中
+        pipeline.addLast(new ChunkedWriteHandler()); // 添加ChunkedWriteHandler以处理作为ChunkedInput传入的数据
+        pipeline.addLast(new WriteStreamHandler()); // 一旦连接建立，WriteStreamHandler就开始写文件数据
     }
 
-    public final class WriteStreamHandler
-        extends ChannelInboundHandlerAdapter {
+    public final class WriteStreamHandler extends ChannelInboundHandlerAdapter {
 
         @Override
-        public void channelActive(ChannelHandlerContext ctx)
-            throws Exception {
+        public void channelActive(ChannelHandlerContext ctx) throws Exception { // 当连接建立时，channelActive()方法将使用ChunkedInput写文件数据
             super.channelActive(ctx);
-            ctx.writeAndFlush(
-            new ChunkedStream(new FileInputStream(file)));
+            ctx.writeAndFlush(new ChunkedStream(new FileInputStream(file)));
         }
     }
 }

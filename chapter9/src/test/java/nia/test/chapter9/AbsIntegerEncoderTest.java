@@ -16,18 +16,17 @@ import static org.junit.Assert.*;
 public class AbsIntegerEncoderTest {
     @Test
     public void testEncoded() {
-        ByteBuf buf = Unpooled.buffer();
+        ByteBuf buf = Unpooled.buffer(); // 创建一个ByteBuf，并且写入9 个负整数
         for (int i = 1; i < 10; i++) {
             buf.writeInt(i * -1);
         }
 
-        EmbeddedChannel channel = new EmbeddedChannel(
-            new AbsIntegerEncoder());
-        assertTrue(channel.writeOutbound(buf));
-        assertTrue(channel.finish());
+        EmbeddedChannel channel = new EmbeddedChannel(new AbsIntegerEncoder()); // 创建一个EmbeddedChannel，并安装一个要测试的AbsIntegerEncoder
+        assertTrue(channel.writeOutbound(buf)); // 写入ByteBuf，并断言调用readOutbound()方法将会产生数据
+        assertTrue(channel.finish()); // 将该Channel标记为已完成状态
 
         // read bytes
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 10; i++) { // 读取所产生的消息，并断言它们包含了对应的绝对值
             assertEquals(i, channel.readOutbound());
         }
         assertNull(channel.readOutbound());

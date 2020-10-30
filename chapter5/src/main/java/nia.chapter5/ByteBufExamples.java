@@ -57,11 +57,11 @@ public class ByteBufExamples {
      */
     public static void heapBuffer() {
         ByteBuf heapBuf = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
-        if (heapBuf.hasArray()) {
-            byte[] array = heapBuf.array();
-            int offset = heapBuf.arrayOffset() + heapBuf.readerIndex();
-            int length = heapBuf.readableBytes();
-            handleArray(array, offset, length);
+        if (heapBuf.hasArray()) { // 检查ByteBuf 是否有一个支撑数组
+            byte[] array = heapBuf.array(); // 如果有，则获取对该数组的引用
+            int offset = heapBuf.arrayOffset() + heapBuf.readerIndex(); // 计算第一个字节的偏移量。
+            int length = heapBuf.readableBytes(); // 获得可读字节数
+            handleArray(array, offset, length); // 使用数组、偏移量和长度作为参数调用你的方法
         }
     }
 
@@ -70,11 +70,11 @@ public class ByteBufExamples {
      */
     public static void directBuffer() {
         ByteBuf directBuf = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
-        if (!directBuf.hasArray()) {
-            int length = directBuf.readableBytes();
-            byte[] array = new byte[length];
-            directBuf.getBytes(directBuf.readerIndex(), array);
-            handleArray(array, 0, length);
+        if (!directBuf.hasArray()) { // 检查ByteBuf 是否由数组支撑。如果不是，则这是一个直接缓冲区
+            int length = directBuf.readableBytes(); // 获取可读字节数
+            byte[] array = new byte[length]; // 分配一个新的数组来保存具有该长度的字节数据
+            directBuf.getBytes(directBuf.readerIndex(), array); // 将字节复制到该数组
+            handleArray(array, 0, length); // 使用数组、偏移量和长度作为参数调用你的方法
         }
     }
 
@@ -86,8 +86,7 @@ public class ByteBufExamples {
         ByteBuffer[] message =  new ByteBuffer[]{ header, body };
 
         // Create a new ByteBuffer and use copy to merge the header and body
-        ByteBuffer message2 =
-                ByteBuffer.allocate(header.remaining() + body.remaining());
+        ByteBuffer message2 = ByteBuffer.allocate(header.remaining() + body.remaining());
         message2.put(header);
         message2.put(body);
         message2.flip();
@@ -101,10 +100,10 @@ public class ByteBufExamples {
         CompositeByteBuf messageBuf = Unpooled.compositeBuffer();
         ByteBuf headerBuf = BYTE_BUF_FROM_SOMEWHERE; // can be backing or direct
         ByteBuf bodyBuf = BYTE_BUF_FROM_SOMEWHERE;   // can be backing or direct
-        messageBuf.addComponents(headerBuf, bodyBuf);
+        messageBuf.addComponents(headerBuf, bodyBuf); // 将ByteBuf 实例追加到CompositeByteBuf
         //...
-        messageBuf.removeComponent(0); // remove the header
-        for (ByteBuf buf : messageBuf) {
+        messageBuf.removeComponent(0); // remove the header: 删除位于索引位置为 0（第一个组件）的ByteBuf
+        for (ByteBuf buf : messageBuf) { // 循环遍历所有的ByteBuf 实例
             System.out.println(buf.toString());
         }
     }
@@ -114,14 +113,15 @@ public class ByteBufExamples {
      */
     public static void byteBufCompositeArray() {
         CompositeByteBuf compBuf = Unpooled.compositeBuffer();
-        int length = compBuf.readableBytes();
-        byte[] array = new byte[length];
-        compBuf.getBytes(compBuf.readerIndex(), array);
-        handleArray(array, 0, array.length);
+        int length = compBuf.readableBytes(); // 获得可读字节数
+        byte[] array = new byte[length]; // 分配一个具有可读字节数长度的新数组
+        compBuf.getBytes(compBuf.readerIndex(), array); // 将字节读到该数组中
+        handleArray(array, 0, array.length); // 使用偏移量和长度作为参数使用该数组
     }
 
     /**
      * Listing 5.6 Access data
+     * 随机访问索引
      */
     public static void byteBufRelativeAccess() {
         ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere

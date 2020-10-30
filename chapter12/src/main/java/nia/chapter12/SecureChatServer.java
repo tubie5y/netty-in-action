@@ -14,7 +14,7 @@ import java.net.InetSocketAddress;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-public class SecureChatServer extends ChatServer {
+public class SecureChatServer extends ChatServer { // SecureChatServer 扩展ChatServer 以支持加密
     private final SslContext context;
 
     public SecureChatServer(SslContext context) {
@@ -22,9 +22,8 @@ public class SecureChatServer extends ChatServer {
     }
 
     @Override
-    protected ChannelInitializer<Channel> createInitializer(
-        ChannelGroup group) {
-        return new SecureChatServerInitializer(group, context);
+    protected ChannelInitializer<Channel> createInitializer(ChannelGroup group) {
+        return new SecureChatServerInitializer(group, context); // 返回之前创建的SecureChatServer-Initializer 以启用加密
     }
 
     public static void main(String[] args) throws Exception {
@@ -34,8 +33,7 @@ public class SecureChatServer extends ChatServer {
         }
         int port = Integer.parseInt(args[0]);
         SelfSignedCertificate cert = new SelfSignedCertificate();
-        SslContext context = SslContext.newServerContext(
-                cert.certificate(), cert.privateKey());
+        SslContext context = SslContext.newServerContext(cert.certificate(), cert.privateKey());
         final SecureChatServer endpoint = new SecureChatServer(context);
         ChannelFuture future = endpoint.start(new InetSocketAddress(port));
         Runtime.getRuntime().addShutdownHook(new Thread() {

@@ -11,12 +11,11 @@ import java.util.List;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-public class ToIntegerDecoder2 extends ReplayingDecoder<Void> {
+public class ToIntegerDecoder2 extends ReplayingDecoder<Void> { // 扩展ReplayingDecoder<Void>以将字节解码为消息
 
     @Override
-    public void decode(ChannelHandlerContext ctx, ByteBuf in,
-        List<Object> out) throws Exception {
-        out.add(in.readInt());
+    public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception { // 传入的ByteBuf 是ReplayingDecoderByteBuf
+        out.add(in.readInt()); // 从入站ByteBuf 中读取一个int，并将其添加到解码消息的List 中
     }
 }
 
