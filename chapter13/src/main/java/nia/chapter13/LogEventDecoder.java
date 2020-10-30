@@ -16,18 +16,12 @@ import java.util.List;
 public class LogEventDecoder extends MessageToMessageDecoder<DatagramPacket> {
 
     @Override
-    protected void decode(ChannelHandlerContext ctx,
-        DatagramPacket datagramPacket, List<Object> out)
-        throws Exception {
+    protected void decode(ChannelHandlerContext ctx, DatagramPacket datagramPacket, List<Object> out) throws Exception { // 获取对DatagramPacket 中的数据（ByteBuf）的引用
         ByteBuf data = datagramPacket.content();
-        int idx = data.indexOf(0, data.readableBytes(),
-            LogEvent.SEPARATOR);
-        String filename = data.slice(0, idx)
-            .toString(CharsetUtil.UTF_8);
-        String logMsg = data.slice(idx + 1,
-            data.readableBytes()).toString(CharsetUtil.UTF_8);
-        LogEvent event = new LogEvent(datagramPacket.sender(),
-            System.currentTimeMillis(), filename, logMsg);
+        int idx = data.indexOf(0, data.readableBytes(), LogEvent.SEPARATOR); // 获取该SEPARATOR的索引
+        String filename = data.slice(0, idx).toString(CharsetUtil.UTF_8); // 提取文件名
+        String logMsg = data.slice(idx + 1, data.readableBytes()).toString(CharsetUtil.UTF_8); // 提取日志消息　
+        LogEvent event = new LogEvent(datagramPacket.sender(), System.currentTimeMillis(), filename, logMsg); // 构建一个新的LogEvent 对象，并且将它添加到（已经解码的消息的）列表中
         out.add(event);
     }
 }
