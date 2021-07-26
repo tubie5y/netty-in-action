@@ -12,7 +12,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * Listing 4.5 Writing to a Channel
+ * Listing 4.5 Writing to a Channel (写出到ChannelChannel)
  *
  * Listing 4.6 Using a Channel from many threads
  *
@@ -21,7 +21,9 @@ import java.util.concurrent.Executors;
 public class ChannelOperationExamples {
     private static final Channel CHANNEL_FROM_SOMEWHERE = new NioSocketChannel();
     /**
-     * Listing 4.5 Writing to a Channel
+     * Listing 4.5 Writing to a Channel (写出到ChannelChannel)
+     *
+     * 考虑一下写数据并将其冲刷到远程节点这样的常规任务。代码清单4-5演示了使用Channel.writeAndFlush()来实现这一目的。
      */
     public static void writingToChannel() {
         Channel channel = CHANNEL_FROM_SOMEWHERE; // Get the channel reference from somewhere
@@ -41,7 +43,7 @@ public class ChannelOperationExamples {
     }
 
     /**
-     * Listing 4.6 Using a Channel from many threads
+     * Listing 4.6 Using a Channel from many threads (从多个线程使用同一个Channel)
      *
      * Netty的Channel实现是线程安全的，因此你可以存储一个到Channel的引用，并且每当你需要向远程节点写数据时，都可以使用它，即使当时许多线程都在使用它。
      * 代码清单4-6展示了一个多线程写数据的简单例子。需要注意的是，消息将会被保证按顺序发送。

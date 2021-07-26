@@ -17,8 +17,8 @@ import java.net.InetSocketAddress;
  *
  * 2.3.2　引导服务器
  *      在讨论过由EchoServerHandler实现的核心业务逻辑之后，我们现在可以探讨引导服务器本身的过程了，具体涉及以下内容：
- *          绑定到服务器将在其上监听并接受传入连接请求的端口；
- *          配置Channel，以将有关的入站消息通知给EchoServerHandler实例。
+ *          - 绑定到服务器将在其上监听并接受传入连接请求的端口；
+ *          - 配置Channel，以将有关的入站消息通知给EchoServerHandler实例。
  *
  *      在➋处，你创建了一个ServerBootstrap实例。因为你正在使用的是NIO传输，所以你指定了NioEventLoopGroup➊来接受和处理新的连接，
  * 并且将Channel的类型指定为NioServerSocketChannel➌。在此之后，你将本地地址设置为一个具有选定端口的InetSocketAddress➍。服务器将绑定到这个地址以监听新的连接请求。
@@ -33,14 +33,14 @@ import java.net.InetSocketAddress;
  * 将需要指定OioServerSocketChannel和OioEventLoopGroup。我们将在第4章中对传输进行更加详细的探讨。
  *
  * 与此同时，让我们回顾一下你刚完成的服务器实现中的重要步骤。下面这些是服务器的主要代码组件：
- *      EchoServerHandler实现了业务逻辑；
- *      main()方法引导了服务器；
+ *      - EchoServerHandler实现了业务逻辑；
+ *      - main()方法引导了服务器；
  * 引导过程中所需要的步骤如下：
- *      创建一个ServerBootstrap的实例以引导和绑定服务器；
- *      创建并分配一个NioEventLoopGroup实例以进行事件的处理，如接受新连接以及读/写数据；
- *      指定服务器绑定的本地的InetSocketAddress；
- *      使用一个EchoServerHandler的实例初始化每一个新的Channel；
- *      调用ServerBootstrap.bind()方法以绑定服务器。
+ *      - 创建一个ServerBootstrap的实例以引导和绑定服务器；
+ *      - 创建并分配一个NioEventLoopGroup实例以进行事件的处理，如接受新连接以及读/写数据；
+ *      - 指定服务器绑定的本地的InetSocketAddress；
+ *      - 使用一个EchoServerHandler的实例初始化每一个新的Channel；
+ *      - 调用ServerBootstrap.bind()方法以绑定服务器。
  * 在这个时候，服务器已经初始化，并且已经就绪能被使用了。
  */
 public class EchoServer {
@@ -55,9 +55,8 @@ public class EchoServer {
             System.err.println("Usage: " + EchoServer.class.getSimpleName() + " <port>");
             return;
         }
-        // 设置端口值（如果端口参数的格式不正确，则抛出一个NumberFormatException）
-        int port = Integer.parseInt(args[0]);
-        new EchoServer(port).start();
+        int port = Integer.parseInt(args[0]); // 　←--　设置端口值（如果端口参数的格式不正确，则抛出一个NumberFormatException）
+        new EchoServer(port).start(); //  ←--  调用服务器的start()方法
     }
 
     public void start() throws Exception {

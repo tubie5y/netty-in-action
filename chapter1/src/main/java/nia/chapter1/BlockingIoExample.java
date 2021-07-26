@@ -16,6 +16,18 @@ public class BlockingIoExample {
 
     /**
      * Listing 1.1 Blocking I/O example
+     * 服务器端代码:
+     *      这段代码片段将只能同时处理一个连接，要管理多个并发客户端，需要为每个新的客户端Socket创建一个新的Thread，如图1-1所示。
+     *
+     * 让我们考虑一下这种方案的影响。
+     *      第一，在任何时候都可能有大量的线程处于休眠状态，只是等待输入或者输出数据就绪，这可能算是一种资源浪费。
+     *      第二，需要为每个线程的调用栈都分配内存，其默认值大小区间为64 KB到1 MB，具体取决于操作系统。
+     *      第三，即使Java虚拟机（JVM）在物理上可以支持非常大数量的线程，但是远在到达该极限之前，上下文切换所带来的开销就会带来麻烦，例如，在达到10 000个连接的时候。
+     *
+     * 虽然这种并发方案对于支撑中小数量的客户端来说还算可以接受，但是为了支撑10_0000或者更多的并发连接所需要的资源使得它很不理想。幸运的是，还有一种方案(Java NIO)。
+     *
+     * 尽管已经有许多直接使用Java NIO API的应用程序被构建了，但是要做到如此正确和安全并不容易。
+     * 特别是，在高负载下可靠和高效地处理和调度I/O操作是一项繁琐而且容易出错的任务，最好留给高性能的网络编程专家——Netty。
      */
     public void serve(int portNumber) throws IOException {
         // 创建一个新的ServerSocket，用以监听指定端口上的连接请求
@@ -36,7 +48,7 @@ public class BlockingIoExample {
             response = processRequest(request);
             // 服务器的响应被发送给了客户端
             out.println(response);
-        }
+        } //  继续执行处理循环
     }
 
     private String processRequest(String request) {

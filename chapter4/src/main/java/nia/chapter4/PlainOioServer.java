@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 
 /**
- * Listing 4.1 Blocking networking without Netty
+ * Listing 4.1 Blocking networking without Netty (未使用Netty的阻塞网络编程)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
