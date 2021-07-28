@@ -6,7 +6,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
 /**
- * Listing 6.3 Consuming and releasing an inbound message
+ * Listing 6.3 Consuming and releasing an inbound message (消费并释放入站消息)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
