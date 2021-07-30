@@ -6,7 +6,8 @@ import io.netty.handler.codec.MessageToMessageEncoder;
 import java.util.List;
 
 /**
- * Listing 10.6 Class IntegerToStringEncoder
+ * Listing 10.6 Class IntegerToStringEncoder (IntegerToStringEncoder类)
+ *      如代码清单10-6所示，编码器将每个出站Integer的String表示添加到了该List中。
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

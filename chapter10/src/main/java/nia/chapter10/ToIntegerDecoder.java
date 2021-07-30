@@ -7,7 +7,9 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 
 /**
- * Listing 10.1 Class ToIntegerDecoder extends ByteToMessageDecoder
+ * Listing 10.1 Class ToIntegerDecoder extends ByteToMessageDecoder (ToIntegerDecoder类扩展了ByteToMessageDecoder)
+ *      - 虽然ByteToMessageDecoder使得可以很简单地实现这种模式，但是你可能会发现，在调用readInt()方法前不得不验证所输入的ByteBuf是否具有足够的数据有点繁琐。
+ *        在下一节中，我们将讨论ReplayingDecoder，它是一个特殊的解码器，以少量的开销消除了这个步骤。
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

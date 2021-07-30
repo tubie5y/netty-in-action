@@ -6,7 +6,7 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 import java.util.List;
 
 /**
- * Listing 10.3 Class IntegerToStringDecoder
+ * Listing 10.3 Class IntegerToStringDecoder (IntegerToStringDecoder类)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

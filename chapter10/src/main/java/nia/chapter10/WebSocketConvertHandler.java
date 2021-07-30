@@ -15,16 +15,16 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import java.util.List;
 
 /**
- * Listing 10.7 Using MessageToMessageCodec
+ * Listing 10.7 Using MessageToMessageCodec (使用MessageToMessageCodec)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 @Sharable
 public class WebSocketConvertHandler extends MessageToMessageCodec<WebSocketFrame, WebSocketConvertHandler.MyWebSocketFrame> {
     @Override
-    protected void encode(ChannelHandlerContext ctx, WebSocketConvertHandler.MyWebSocketFrame msg, List<Object> out) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, WebSocketConvertHandler.MyWebSocketFrame msg, List<Object> out) throws Exception { //  ←--  将MyWebSocketFrame 编码为指定的WebSocketFrame子类型
         ByteBuf payload = msg.getData().duplicate().retain();
-        switch (msg.getType()) {
+        switch (msg.getType()) { //  ←--  实例化一个指定子类型的WebSocketFrame
             case BINARY:
                 out.add(new BinaryWebSocketFrame(payload));
                 break;
@@ -49,7 +49,7 @@ public class WebSocketConvertHandler extends MessageToMessageCodec<WebSocketFram
     }
 
     @Override
-    protected void decode(ChannelHandlerContext ctx, WebSocketFrame msg, List<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, WebSocketFrame msg, List<Object> out) throws Exception { //  ←--  将WebSocketFrame 解码为MyWebSocketFrame，并设置FrameType
         ByteBuf payload = msg.content().duplicate().retain();
         if (msg instanceof BinaryWebSocketFrame) {
             out.add(new MyWebSocketFrame(MyWebSocketFrame.FrameType.BINARY, payload));
@@ -68,8 +68,8 @@ public class WebSocketConvertHandler extends MessageToMessageCodec<WebSocketFram
         }
     }
 
-    public static final class MyWebSocketFrame { // 声明WebSocketConvertHandler所使用的OUTBOUND_IN 类型
-        public enum FrameType { // 定义拥有被包装的有效负载的WebSocketFrame的类型
+    public static final class MyWebSocketFrame { //  ←--  声明WebSocketConvertHandler所使用的OUTBOUND_IN 类型
+        public enum FrameType { //  ←-- 定义拥有被包装的有效负载的WebSocketFrame的类型
             BINARY,
             CLOSE,
             PING,
