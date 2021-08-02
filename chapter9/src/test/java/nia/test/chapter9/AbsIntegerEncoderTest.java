@@ -12,6 +12,13 @@ import static org.junit.Assert.*;
  * Listing 9.4 Testing the AbsIntegerEncoder
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
+ *
+ * 下面是代码中执行的步骤。
+ * ❶ 将4字节的负整数写到一个新的ByteBuf中。
+ * ❷ 创建一个EmbeddedChannel，并为它分配一个AbsIntegerEncoder。
+ * ❸ 调用EmbeddedChannel上的writeOutbound()方法来写入该ByteBuf。
+ * ❹ 标记该Channel为已完成状态。
+ * ❺ 从EmbeddedChannel的出站端读取所有的整数，并验证是否只产生了绝对值。
  */
 public class AbsIntegerEncoderTest {
     @Test

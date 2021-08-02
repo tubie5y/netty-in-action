@@ -12,6 +12,14 @@ import static org.junit.Assert.*;
  * Listing 9.2 Testing the FixedLengthFrameDecoder
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
+ *
+ * - 该testFramesDecoded()方法验证了：一个包含9个可读字节的ByteBuf被解码为3个ByteBuf，每个都包含了3字节。
+ *   需要注意的是，仅通过一次对writeInbound()方法的调用，ByteBuf是如何被填充了9个可读字节的。在此之后，通过执行finish()方法，
+ *   将EmbeddedChannel标记为了已完成状态。最后，通过调用readInbound()方法，从Embedded-Channel中正好读取了3个帧和一个null。
+ *
+ * - testFramesDecoded2()方法也是类似的，只有一处不同：入站ByteBuf是通过两个步骤写入的。当writeInbound(input.readBytes(2))被调用时，返回了false。为什么呢？
+ *   正如同表9-1中所描述的，如果对readInbound()的后续调用将会返回数据，那么writeInbound()方法将会返回true。
+ *   但是只有当有3个或者更多的字节可供读取时，FixedLength-FrameDecoder才会产生输出。该测试剩下的部分和testFramesDecoded()是相同的。
  */
 public class FixedLengthFrameDecoderTest {
     @Test // 使用了注解@Test 标注，因此JUnit 将会执行该方法

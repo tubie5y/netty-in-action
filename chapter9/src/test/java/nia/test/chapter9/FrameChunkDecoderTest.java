@@ -14,6 +14,11 @@ import static org.junit.Assert.*;
  * Listing 9.6 Testing FrameChunkDecoder
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
+ *
+ * - 乍一看，这看起来非常类似于代码清单9-2中的测试，但是它有一个有趣的转折点，即对TooLongFrameException的处理。这里使用的try/catch块是EmbeddedChannel的一个特殊功能。
+ *   如果其中一个write*方法产生了一个受检查的Exception，那么它将会被包装在一个RuntimeException中并抛出。这使得可以容易地测试出一个Exception是否在处理数据的过程中已经被处理了。
+ *
+ * - 这里介绍的测试方法可以用于任何能抛出Exception的ChannelHandler实现。
  */
 
 public class FrameChunkDecoderTest {
