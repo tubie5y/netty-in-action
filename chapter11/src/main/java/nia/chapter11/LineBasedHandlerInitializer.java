@@ -5,7 +5,7 @@ import io.netty.channel.*;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 
 /**
- * Listing 11.8 Handling line-delimited frames
+ * Listing 11.8 Handling line-delimited frames (处理由行尾符分隔的帧)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

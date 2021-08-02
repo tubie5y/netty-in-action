@@ -5,7 +5,7 @@ import io.netty.channel.*;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 
 /**
- * Listing 11.9 Using a ChannelInitializer as a decoder installer
+ * Listing 11.9 Using a ChannelInitializer as a decoder installer (使用ChannelInitializer安装解码器)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

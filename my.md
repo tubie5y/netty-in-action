@@ -1,5 +1,9 @@
 # netty
 - 第一章需要返回多看几次
+
+## 
+- [互联网协议套件](https://zh.wikipedia.org/wiki/TCP/IP%E5%8D%8F%E8%AE%AE%E6%97%8F#TCP/IP参考模型)
+
 ## 概念
 - ByteBuf：
     - 该框架的数据处理API——ByteBuf，Netty的字节容器。

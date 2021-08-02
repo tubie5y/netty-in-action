@@ -9,7 +9,7 @@ import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.codec.http.HttpServerCodec;
 
 /**
- * Listing 11.4 Automatically compressing HTTP messages
+ * Listing 11.4 Automatically compressing HTTP messages (自动压缩HTTP消息)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

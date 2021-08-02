@@ -12,7 +12,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 
 /**
- * Listing 11.6 Supporting WebSocket on the server
+ * Listing 11.6 Supporting WebSocket on the server (在服务器端支持WebSocket)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

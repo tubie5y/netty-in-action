@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 /**
  * Listing 11.12 of <i>Netty in Action</i>
  *
+ * 当Channel的状态变为活动的时，WriteStreamHandler将会逐块地把来自文件中的数据作为ChunkedStream写入。数据在传输之前将会由SslHandler加密。
+ *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class ChunkedWriteHandlerInitializer extends ChannelInitializer<Channel> {

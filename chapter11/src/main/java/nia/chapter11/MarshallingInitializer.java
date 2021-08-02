@@ -9,7 +9,7 @@ import io.netty.handler.codec.marshalling.UnmarshallerProvider;
 import java.io.Serializable;
 
 /**
- * Listing 11.13 Using JBoss Marshalling
+ * Listing 11.13 Using JBoss Marshalling (使用JBoss Marshalling)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

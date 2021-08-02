@@ -11,7 +11,11 @@ import io.netty.handler.ssl.SslHandler;
 import javax.net.ssl.SSLEngine;
 
 /**
- * Listing 11.5 Using HTTPS
+ * Listing 11.5 Using HTTPS (使用HTTPS)
+ *      代码清单11-5显示，启用HTTPS只需要将SslHandler添加到ChannelPipeline的ChannelHandler组合中。
+ *
+ * - 前面的代码是一个很好的例子，说明了Netty的架构方式是如何将代码重用变为杠杆作用的。
+ *   只需要简单地将一个ChannelHandler添加到ChannelPipeline中，便可以提供一项新功能，甚至像加密这样重要的功能都能提供。
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

@@ -9,7 +9,8 @@ import java.io.FileInputStream;
 /**
  * Created by kerr.
  * <p>
- * Listing 11.11 Transferring file contents with FileRegion
+ * Listing 11.11 Transferring file contents with FileRegion (使用FileRegion传输文件的内容)
+ *      代码清单11-11展示了如何通过从FileInputStream创建一个DefaultFileRegion，并将其写入Channel，从而利用零拷贝特性来传输一个文件的内容。
  */
 public class FileRegionWriteHandler extends ChannelInboundHandlerAdapter {
     private static final Channel CHANNEL_FROM_SOMEWHERE = new NioSocketChannel();
@@ -26,7 +27,7 @@ public class FileRegionWriteHandler extends ChannelInboundHandlerAdapter {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (!future.isSuccess()) {
-                    Throwable cause = future.cause();
+                    Throwable cause = future.cause(); // 处理失败
                     // Do something
                 }
             }

@@ -8,7 +8,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 
 /**
- * Listing 11.3 Automatically aggregating HTTP message fragments
+ * Listing 11.3 Automatically aggregating HTTP message fragments (自动聚合HTTP的消息片段)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

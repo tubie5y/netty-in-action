@@ -9,7 +9,7 @@ import io.netty.handler.codec.http.HttpResponseDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
 /**
- * Listing 11.2 Adding support for HTTP
+ * Listing 11.2 Adding support for HTTP (添加HTTP支持)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
