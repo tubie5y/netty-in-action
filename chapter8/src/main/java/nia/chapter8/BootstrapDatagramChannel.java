@@ -20,7 +20,10 @@ import java.net.InetSocketAddress;
 public class BootstrapDatagramChannel {
 
     /**
-     * Listing 8.8 Using Bootstrap with DatagramChannel
+     * Listing 8.8 Using Bootstrap with DatagramChannel (使用Bootstrap和DatagramChannel)
+     *
+     * - 前面的引导代码示例使用的都是基于TCP协议的SocketChannel，但是Bootstrap类也可以被用于无连接的协议。
+     *   为此，Netty提供了各种DatagramChannel的实现。唯一区别就是，不再调用connect()方法，而是只调用bind()方法，如代码清单8-8所示。
      */
     public void bootstrap() {
         Bootstrap bootstrap = new Bootstrap(); // 创建一个Bootstrap 的实例以创建和绑定新的数据报Channel

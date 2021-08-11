@@ -20,7 +20,7 @@ import java.net.InetSocketAddress;
 public class BootstrapServer {
 
     /**
-     * Listing 8.4 Bootstrapping a server
+     * Listing 8.4 Bootstrapping a server (引导服务器)
      */
     public void bootstrap() {
         NioEventLoopGroup group = new NioEventLoopGroup();

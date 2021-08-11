@@ -12,7 +12,7 @@ import io.netty.channel.socket.oio.OioSocketChannel;
 import java.net.InetSocketAddress;
 
 /**
- * Listing 8.3 Incompatible Channel and EventLoopGroup
+ * Listing 8.3 Incompatible Channel and EventLoopGroup (不兼容的Channel和EventLoopGroup)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
@@ -24,7 +24,14 @@ public class InvalidBootstrapClient {
     }
 
     /**
-     * Listing 8.3 Incompatible Channel and EventLoopGroup
+     * Listing 8.3 Incompatible Channel and EventLoopGroup (不兼容的Channel和EventLoopGroup)
+     * 这段代码将会导致IllegalStateException，因为它混用了不兼容的传输。
+     *
+     * 在引导的过程中，在调用bind()或者connect()方法之前，必须调用以下方法来设置所需的组件：
+     *      - group()；
+     *      - channel()或者channelFactory()；
+     *      - handler()。
+     * 如果不这样做，则将会导致IllegalStateException。对handler()方法的调用尤其重要，因为它需要配置好ChannelPipeline。
      */
     public void bootstrap() {
         EventLoopGroup group = new NioEventLoopGroup();

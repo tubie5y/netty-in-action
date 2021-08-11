@@ -14,7 +14,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.net.InetSocketAddress;
 
 /**
- * Listing 8.5 Bootstrapping a server
+ * Listing 8.5 Bootstrapping a server (引导服务器)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  * @author <a href="mailto:mawolfthal@gmail.com">Marvin Wolfthal</a>
@@ -22,7 +22,9 @@ import java.net.InetSocketAddress;
 public class BootstrapSharingEventLoopGroup {
 
     /**
-     * Listing 8.5 Bootstrapping a server
+     * Listing 8.5 Bootstrapping a server (引导服务器)
+     *      - 图8-4　在两个Channel之间共享EventLoop
+     *      - 实现EventLoop共享涉及通过调用group()方法来设置EventLoop，如代码清单8-5所示。
      */
     public void bootstrap() {
         ServerBootstrap bootstrap = new ServerBootstrap(); // 创建ServerBootstrap 以创建ServerSocketChannel，并绑定它

@@ -13,14 +13,15 @@ import io.netty.util.AttributeKey;
 import java.net.InetSocketAddress;
 
 /**
- * Listing 8.7 Using attributes
+ * Listing 8.7 Using attributes (使用属性值)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class BootstrapClientWithOptionsAndAttrs {
 
     /**
-     * Listing 8.7 Using attributes
+     * Listing 8.7 Using attributes (使用属性值)
+     *      代码清单8-7展示了可以如何使用ChannelOption来配置Channel，以及如果使用属性来存储整型值。
      */
     public void bootstrap() {
         final AttributeKey<Integer> id = AttributeKey.newInstance("ID"); // 创建一个AttributeKey以标识该属性

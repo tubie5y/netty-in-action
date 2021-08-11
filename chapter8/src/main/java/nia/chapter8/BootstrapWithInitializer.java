@@ -10,14 +10,14 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import java.net.InetSocketAddress;
 
 /**
- * Listing 8.6 Bootstrapping and using ChannelInitializer
+ * Listing 8.6 Bootstrapping and using ChannelInitializer (引导和使用ChannelInitializer)
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
 public class BootstrapWithInitializer {
 
     /**
-     * Listing 8.6 Bootstrapping and using ChannelInitializer
+     * Listing 8.6 Bootstrapping and using ChannelInitializer (引导和使用ChannelInitializer)
      */
     public void bootstrap() throws InterruptedException {
         ServerBootstrap bootstrap = new ServerBootstrap(); // 创建ServerBootstrap 以创建和绑定新的Channel
