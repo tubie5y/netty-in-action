@@ -35,12 +35,13 @@ public class ConnectExample {
         ChannelFuture future = channel.connect(new InetSocketAddress("192.168.0.1", 25)); //  异步地连接到远程节点
         future.addListener(new ChannelFutureListener() { //  注册一个ChannelFutureListener，以便在操作完成时获得通知
             @Override
-            public void operationComplete(ChannelFuture future) { //  检查操作的状态
+            public void operationComplete(ChannelFuture future) { // ① 检查操作的状态
                 if (future.isSuccess()) {
                     ByteBuf buffer = Unpooled.copiedBuffer("Hello", Charset.defaultCharset()); //  如果操作是成功的，则创建一个ByteBuf以持有数据
                     ChannelFuture wf = future.channel().writeAndFlush(buffer); //  将数据异步地发送到远程节点。返回一个ChannelFuture
                     // ...
                 } else {
+                    // 需要注意的是,对错误的处理完全取决于你、目标,当然也包括目前任何对于特定类型的错误加以的限制。例如,如果连接失败,你可以尝试重新连接或者建立一个到另一个远程节点的连接。
                     Throwable cause = future.cause(); // 　如果发生错误，则访问描述原因的Throwable
                     cause.printStackTrace();
                 }
