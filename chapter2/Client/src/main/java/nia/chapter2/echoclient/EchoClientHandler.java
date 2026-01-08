@@ -8,22 +8,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
 /**
- * Listing 2.3 ChannelHandler for the client
+ * 代码清单 2-3 客户端的 ChannelHandler
  *
  * - 通过ChannelHandler实现客户端逻辑
  *     - 如同服务器,客户端将拥有一个用来处理数据的 ChannelInboundHandler。 在这个场景下,
- *       你将扩展SimpleChannelInboundHandler类以处理所有必须的任务
- *
- *     - 首先，你重写了channelActive()方法，其将在一个连接建立时被调用。这确保了数据将会被尽可能快地写入服务器，
- *       其在这个场景下是一个编码了字符串"Netty rocks!"的字节缓冲区。
- *
- *     - 接下来，你重写了channelRead0()方法。每当接收数据时，都会调用这个方法。需要注意的是，由服务器发送的消息可能会被分块接收。
- *       也就是说，如果服务器发送了5字节，那么不能保证这5字节会被一次性接收。即使是对于这么少量的数据，channelRead0()方法也可能会被调用两次，
- *       第一次使用一个持有3字节的ByteBuf（Netty的字节容器），第二次使用一个持有2字节的ByteBuf。
- *       作为一个面向流的协议，TCP保证了字节数组将会按照服务器发送它们的顺序被接收。
- *
- *     - 重写的第三个方法是exceptionCaught()。如同在EchoServerHandler（见代码清单2-2）中所示，
- *       记录Throwable，关闭Channel，在这个场景下，终止到服务器的连接。
+ *       你将扩展 SimpleChannelInboundHandler 类以处理所有必须的任务
  *
  * - SimpleChannelInboundHandler与ChannelInboundHandler
  *     - 你可能会想：为什么我们在客户端使用的是SimpleChannelInboundHandler，
@@ -44,34 +33,49 @@ import io.netty.util.CharsetUtil;
 @Sharable //标记该类的实例可以被多个Channel共享
 public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     /**
-     * channelActive()——在到服务器的连接已经建立之后将被调用；
+     * - channelActive()——在到服务器的连接已经建立之后将被调用；
+     *
+     * - 首先，你重写了channelActive()方法，其将在一个连接建立时被调用。这确保了数据将会被尽可能快地写入服务器，
+     *   其在这个场景下是一个编码了字符串"Netty rocks!"的字节缓冲区。
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8)); //  ←--  当被通知Channel是活跃的时候，发送一条消息
+        // 当被通知Channel是活跃的时候，发送一条消息
+        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", CharsetUtil.UTF_8));
     }
 
     /**
-     * channelRead0()——当从服务器接收到一条消息时被调用；
+     * - channelRead0()——当从服务器接收到一条消息时被调用；
      *
-     * - 当该方法返回时，SimpleChannelInboundHandler负责释放指向保存该消息的ByteBuf的内存引用。
-     * - 当该方法返回时，SimpleChannelInboundHandler负责关闭Channel？
+     * - 你重写了channelRead0()方法。每当接收数据时，都会调用这个方法。需要注意的是，由服务器发送的消息可能会被分块接收。
+     *   也就是说，如果服务器发送了5字节，那么不能保证这5字节会被一次性接收。即使是对于这么少量的数据，channelRead0()方法也可能会被调用两次，
+     *   第一次使用一个持有3字节的ByteBuf（Netty的字节容器），第二次使用一个持有2字节的ByteBuf。
+     *   作为一个面向流的协议，TCP保证了字节数组将会按照服务器发送它们的顺序被接收。
+     *
+     * - 当该方法返回时，SimpleChannelInboundHandler 负责释放指向保存该消息的 ByteBuf 的内存引用。
+     * - 当该方法返回时，SimpleChannelInboundHandler 负责关闭Channel？
      */
     @Override
     public void channelRead0(ChannelHandlerContext ctx, ByteBuf in) {
-        System.out.println("[Client] received: " + in.toString(CharsetUtil.UTF_8)); //  ←--  记录已接收消息的转储
+        // 记录已接收消息的转储
+        System.out.println("[Client] received: " + in.toString(CharsetUtil.UTF_8));
     }
 
     /**
-     * exceptionCaught()——在处理过程中引发异常时被调用。
+     * - exceptionCaught()——在处理过程中引发异常时被调用。
+     *
+     * - 重写的第三个方法是exceptionCaught()。如同在EchoServerHandler（见代码清单2-2）中所示，
+     *   记录Throwable，关闭Channel，在这个场景下，终止到服务器的连接。
      *
      * - 客户端连接一个已经关闭的服务端会发生什么?
      *   - 客户端试图连接服务器, 其预期运行在localhost:9999上。但是连接失败了,因为服务器在这之前就已经停止了,
-     *     所以在客户端导致了一个java.net.ConnectException。这个异常触发了EchoClientHandler的
-     *     exceptionCaught()方法, 打印出了栈跟踪并关闭了Channel。
+     *     所以在客户端导致了一个 java.net.ConnectException。这个异常触发了 EchoClientHandler 的 exceptionCaught() 方法,
+     *     打印出了栈跟踪并关闭了Channel。
      */
+
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { //  ←--  在发生异常时，记录错误并关闭Channel
+    // 在发生异常时，记录错误并关闭Channel
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
     }
