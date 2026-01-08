@@ -9,13 +9,13 @@ import java.net.Socket;
 
 /**
  * Created by kerr.
- * <p>
- * Listing 1.1 Blocking I/O example
+ *
+ * 代码清单 1-1 阻塞 I/O 示例
  */
 public class BlockingIoExample {
 
     /**
-     * Listing 1.1 Blocking I/O example
+     * 代码清单 1-1 阻塞 I/O 示例
      * - 代码清单1-1实现了SocketAPI的基本模式之一。
      *   这段代码片段将只能同时处理一个连接,要管理多个并发客户端,需要为每个新的客户端Socket创建一个新的Thread,如图1-1所示。
      *
