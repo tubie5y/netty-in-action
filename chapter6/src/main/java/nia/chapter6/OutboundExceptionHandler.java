@@ -3,7 +3,7 @@ package nia.chapter6;
 import io.netty.channel.*;
 
 /**
- * Listing 6.14 Adding a ChannelFutureListener to a ChannelPromise (添加ChannelFutureListener到ChannelPromise)
+ * 代码清单 6-14 添加 ChannelFutureListener 到 ChannelPromise
  *      第二种方式是将ChannelFutureListener添加到即将作为参数传递给ChannelOutboundHandler的方法的ChannelPromise。代码清单6-14中所展示的代码和代码清单6-13中所展示的具有相同的效果。
  *
  * ChannelPromise的可写方法

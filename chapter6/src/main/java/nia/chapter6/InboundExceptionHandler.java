@@ -4,8 +4,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
- * Listing 6.12 Basic inbound exception handling (基本的入站异常处理)
- *      代码清单6-12展示了一个简单的示例，其关闭了Channel并打印了异常的栈跟踪信息。
+ * - 代码清单 6-12 基本的入站异常处理
+ *     - 代码清单6-12展示了一个简单的示例，其关闭了Channel并打印了异常的栈跟踪信息。
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */

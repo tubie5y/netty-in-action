@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
- * Listing 6.10 A sharable ChannelHandler (可共享的ChannelHandler)
+ * 代码清单 6-10 可共享的 ChannelHandler
  *      因为一个ChannelHandler可以从属于多个ChannelPipeline，所以它也可以绑定到多个ChannelHandlerContext实例。
  *      对于这种用法指在多个ChannelPipeline中共享同一个ChannelHandler，对应的ChannelHandler必须要使用@Sharable注解标注；否则，试图将它添加到多个ChannelPipeline时将会触发异常。
  *      显而易见，为了安全地被用于多个并发的Channel（即连接），这样的ChannelHandler必须是线程安全的。
@@ -13,12 +13,14 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-@Sharable // 使用注解@Sharable标注
+//使用注解@Sharable标注
+@Sharable
 public class SharableHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("channel read message " + msg);
-        ctx.fireChannelRead(msg); // 记录方法调用，并转发给下一个ChannelHandler
+        //记录方法调用，并转发给下一个 ChannelHandler
+        ctx.fireChannelRead(msg);
     }
 }
 

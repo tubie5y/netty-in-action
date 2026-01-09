@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
- * Listing 6.11 Invalid usage of @Sharable (@Sharable的错误用法)
+ * 代码清单 6-11 @Sharable 的错误用法
  *      前面的ChannelHandler实现(6.10)符合所有的将其加入到多个ChannelPipeline的需求，即它使用了注解@Sharable标注，并且也不持有任何的状态。相反，代码清单6-11中的实现将会导致问题。
  *
  * - 这段代码的问题在于它拥有状态，即用于跟踪方法调用次数的实例变量count。将这个类的一个实例添加到ChannelPipeline将极有可能在它被多个并发的Channel访问时导致问题。
@@ -15,15 +15,18 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
-@Sharable // 使用注解@Sharable标注
+//使用注解@Sharable标注
+@Sharable
 public class UnsharableHandler extends ChannelInboundHandlerAdapter {
     private int count;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        count++; // 将count 字段的值加1
+        //将 count 字段的值加 1
+        count++;
+        //记录方法调用，并转发给下一个ChannelHandler
         System.out.println("inboundBufferUpdated(...) called the " + count + " time");
-        ctx.fireChannelRead(msg); // 记录方法调用，并转发给下一个ChannelHandler
+        ctx.fireChannelRead(msg);
     }
 }
 
