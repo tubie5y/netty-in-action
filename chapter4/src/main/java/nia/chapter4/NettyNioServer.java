@@ -4,6 +4,8 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
+import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -21,12 +23,14 @@ public class NettyNioServer {
     public void server(int port) throws Exception {
         final ByteBuf buf = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hi!\r\n", Charset.forName("UTF-8")));
         // 为非阻塞模式使用 NioEventLoopGroup
+//        EpollEventLoopGroup group = new EpollEventLoopGroup();
         NioEventLoopGroup group = new NioEventLoopGroup(); // ✅改变
         try {
             // 创建ServerBootstrap
             ServerBootstrap b = new ServerBootstrap();
             // 传输的实现
             b.group(group) // ✅改变
+//                    .channel(EpollServerSocketChannel.class)
                     .channel(NioServerSocketChannel.class) // ✅改变
                     .localAddress(new InetSocketAddress(port))
                     // 指定 ChannelInitializer，对于每个已接受的连接都调用它
