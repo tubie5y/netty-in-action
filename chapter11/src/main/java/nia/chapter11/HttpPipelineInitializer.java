@@ -9,7 +9,7 @@ import io.netty.handler.codec.http.HttpResponseDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
 /**
- * Listing 11.2 Adding support for HTTP (添加HTTP支持)
+ * 代码清单 11-2 添加 HTTP 支持
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
@@ -25,11 +25,15 @@ public class HttpPipelineInitializer extends ChannelInitializer<Channel> {
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         if (client) {
-            pipeline.addLast("decoder", new HttpResponseDecoder()); // 如果是客户端，则添加HttpResponseDecoder 以处理来自服务器的响应
-            pipeline.addLast("encoder", new HttpRequestEncoder()); // 如果是客户端，则添加HttpRequestEncoder以向服务器发送请求
+            //如果是客户端，则添加 HttpResponseDecoder 以处理来自服务器的响应
+            pipeline.addLast("decoder", new HttpResponseDecoder());
+            //如果是客户端，则添加 HttpRequestEncoder 以向服务器发送请求
+            pipeline.addLast("encoder", new HttpRequestEncoder());
         } else {
-            pipeline.addLast("decoder", new HttpRequestDecoder()); // 如果是服务器，则添加HttpRequestDecoder以接收来自客户端的请求
-            pipeline.addLast("encoder", new HttpResponseEncoder()); // 如果是服务器，则添加HttpResponseEncoder以向客户端发送响应
+            //如果是服务器，则添加 HttpRequestDecoder 以接收来自客户端的请求
+            pipeline.addLast("decoder", new HttpRequestDecoder());
+            //如果是服务器，则添加 HttpResponseEncoder 以向客户端发送响应
+            pipeline.addLast("encoder", new HttpResponseEncoder());
         }
     }
 }

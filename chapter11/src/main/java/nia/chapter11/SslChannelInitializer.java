@@ -8,7 +8,7 @@ import io.netty.handler.ssl.SslHandler;
 import javax.net.ssl.SSLEngine;
 
 /**
- * Listing 11.1 Adding SSL/TLS support
+ * 代码清单 11-1 添加 SSL/TLS 支持
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
@@ -27,7 +27,9 @@ public class SslChannelInitializer extends ChannelInitializer<Channel> {
 
     @Override
     protected void initChannel(Channel ch) throws Exception {
-        SSLEngine engine = context.newEngine(ch.alloc()); // 对于每个SslHandler 实例，都使用Channel 的ByteBufAllocator 从SslContext 获取一个新的SSLEngine
-        ch.pipeline().addFirst("ssl", new SslHandler(engine, startTls)); // 将SslHandler 作为第一个ChannelHandler 添加到ChannelPipeline 中
+        //对于每个 SslHandler 实例，都使用 Channel 的 ByteBufAllocator 从 SslContext 获取一个新的 SSLEngine
+        SSLEngine engine = context.newEngine(ch.alloc());
+        //将 SslHandler 作为第一个 ChannelHandler 添加到 ChannelPipeline 中
+        ch.pipeline().addFirst("ssl", new SslHandler(engine, startTls));
     }
 }

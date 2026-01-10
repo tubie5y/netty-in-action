@@ -5,21 +5,32 @@ import io.netty.channel.*;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 
 /**
- * Listing 11.8 Handling line-delimited frames (处理由行尾符分隔的帧)
+ * 代码清单 11-8 处理由行尾符分隔的帧
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
+ *
+ * ================== 用于处理基于分隔符的协议的解码器
+ * 1. DelimiterBasedFrameDecoder
+ *   - 使用任何由用户提供的分隔符来提取帧的通用解码器
+ *
+ * 2. LineBasedFrameDecoder
+ *   - 提取由行尾符(\n或者\r\n)分隔的帧的解码器。这个解码器比 DelimiterBasedFrameDecoder 更快
+ *
  */
 public class LineBasedHandlerInitializer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        pipeline.addLast(new LineBasedFrameDecoder(64 * 1024)); // 该LineBasedFrameDecoder 将提取的帧转发给下一个ChannelInboundHandler
-        pipeline.addLast(new FrameHandler()); // 添加FrameHandler以接收帧
+        //该 LineBasedFrameDecoder 将提取的帧转发给下一个 ChannelInboundHandler
+        pipeline.addLast(new LineBasedFrameDecoder(64 * 1024));
+        //添加 FrameHandler 以接收帧
+        pipeline.addLast(new FrameHandler());
     }
 
     public static final class FrameHandler extends SimpleChannelInboundHandler<ByteBuf> {
         @Override
-        public void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception { // 传入了单个帧的内容
+        //传入了单个帧的内容
+        public void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
             // Do something with the data extracted from the frame
         }
     }

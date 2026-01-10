@@ -11,7 +11,7 @@ import io.netty.handler.ssl.SslHandler;
 import javax.net.ssl.SSLEngine;
 
 /**
- * Listing 11.5 Using HTTPS (使用HTTPS)
+ * 代码清单 11-5 使用 HTTPS
  *      代码清单11-5显示，启用HTTPS只需要将SslHandler添加到ChannelPipeline的ChannelHandler组合中。
  *
  * - 前面的代码是一个很好的例子，说明了Netty的架构方式是如何将代码重用变为杠杆作用的。
@@ -32,12 +32,15 @@ public class HttpsCodecInitializer extends ChannelInitializer<Channel> {
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         SSLEngine engine = context.newEngine(ch.alloc());
-        pipeline.addFirst("ssl", new SslHandler(engine)); // 将SslHandler 添加到ChannelPipeline 中以使用HTTPS
+        //将 SslHandler 添加到ChannelPipeline 中以使用 HTTPS
+        pipeline.addFirst("ssl", new SslHandler(engine));
 
         if (isClient) {
-            pipeline.addLast("codec", new HttpClientCodec()); // 如果是客户端，则添加HttpClientCodec
+            //如果是客户端，则添加 HttpClientCodec
+            pipeline.addLast("codec", new HttpClientCodec());
         } else {
-            pipeline.addLast("codec", new HttpServerCodec()); // 如果是服务器，则添加HttpServerCodec
+            //如果是服务器，则添加 HttpServerCodec
+            pipeline.addLast("codec", new HttpServerCodec());
         }
     }
 }

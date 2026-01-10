@@ -8,8 +8,8 @@ import java.io.FileInputStream;
 
 /**
  * Created by kerr.
- * <p>
- * Listing 11.11 Transferring file contents with FileRegion (使用FileRegion传输文件的内容)
+ *
+ * 代码清单 11-11 使用 FileRegion 传输文件的内容
  *      代码清单11-11展示了如何通过从FileInputStream创建一个DefaultFileRegion，并将其写入Channel，从而利用零拷贝特性来传输一个文件的内容。
  */
 public class FileRegionWriteHandler extends ChannelInboundHandlerAdapter {
@@ -21,15 +21,19 @@ public class FileRegionWriteHandler extends ChannelInboundHandlerAdapter {
         File file = FILE_FROM_SOMEWHERE; //get reference from somewhere
         Channel channel = CHANNEL_FROM_SOMEWHERE; //get reference from somewhere
         //...
-        FileInputStream in = new FileInputStream(file); // 创建一个FileInputStream
-        FileRegion region = new DefaultFileRegion(in.getChannel(), 0, file.length()); // 以该文件的完整长度创建一个新的DefaultFileRegion
-        channel.writeAndFlush(region).addListener(new ChannelFutureListener() { // 发送该DefaultFileRegion，并注册一个ChannelFutureListener
+        //创建一个 FileInputStream
+        FileInputStream in = new FileInputStream(file);
+        //以该文件的完整长度创建一个新的 DefaultFileRegion
+        FileRegion region = new DefaultFileRegion(in.getChannel(), 0, file.length());
+        //发送该 DefaultFileRegion，并注册一个 ChannelFutureListener
+        channel.writeAndFlush(region).addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
-                if (!future.isSuccess()) {
-                    Throwable cause = future.cause(); // 处理失败
-                    // Do something
-                }
+               if (!future.isSuccess()) {
+                   //处理失败
+                   Throwable cause = future.cause();
+                   // Do something
+               }
             }
         });
     }
