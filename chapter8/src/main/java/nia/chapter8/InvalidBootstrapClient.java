@@ -12,7 +12,7 @@ import io.netty.channel.socket.oio.OioSocketChannel;
 import java.net.InetSocketAddress;
 
 /**
- * Listing 8.3 Incompatible Channel and EventLoopGroup (不兼容的Channel和EventLoopGroup)
+ * 代码清单 8-3 不兼容的 Channel 和 EventLoopGroup
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  */
@@ -24,7 +24,7 @@ public class InvalidBootstrapClient {
     }
 
     /**
-     * Listing 8.3 Incompatible Channel and EventLoopGroup (不兼容的Channel和EventLoopGroup)
+     * 代码清单 8-3 不兼容的 Channel 和 EventLoopGroup
      * 这段代码将会导致IllegalStateException，因为它混用了不兼容的传输。
      *
      * 在引导的过程中，在调用bind()或者connect()方法之前，必须调用以下方法来设置所需的组件：
@@ -35,16 +35,23 @@ public class InvalidBootstrapClient {
      */
     public void bootstrap() {
         EventLoopGroup group = new NioEventLoopGroup();
-        Bootstrap bootstrap = new Bootstrap(); // 创建一个新的Bootstrap类的实例，以创建新的客户端Channel
-        bootstrap.group(group) // 指定一个适用于NIO 的EventLoopGroup 实现
-                .channel(OioSocketChannel.class) // 指定一个适用于OIO 的Channel实现类
-                .handler(new SimpleChannelInboundHandler<ByteBuf>() { // 设置一个用于处理Channel的I/O 事件和数据的ChannelInboundHandler
-                    @Override
-                    protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
-                        System.out.println("Received data");
-                    }
-                });
-        ChannelFuture future = bootstrap.connect(new InetSocketAddress("www.manning.com", 80)); // 尝试连接到远程节点
+        //创建一个新的 Bootstrap 类的实例，以创建新的客户端Channel
+        Bootstrap bootstrap = new Bootstrap();
+        //指定一个适用于 NIO 的 EventLoopGroup 实现
+        bootstrap.group(group)
+            //指定一个适用于 OIO 的 Channel 实现类
+            .channel(OioSocketChannel.class)
+            //设置一个用于处理 Channel的 I/O 事件和数据的 ChannelInboundHandler
+            .handler(new SimpleChannelInboundHandler<ByteBuf>() {
+                @Override
+                protected void channelRead0(
+                    ChannelHandlerContext channelHandlerContext,
+                    ByteBuf byteBuf) throws Exception {
+                    System.out.println("Received data");
+                }
+             });
+        //尝试连接到远程节点
+        ChannelFuture future = bootstrap.connect(new InetSocketAddress("www.manning.com", 80));
         future.syncUninterruptibly();
     }
 }

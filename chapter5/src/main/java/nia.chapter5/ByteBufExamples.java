@@ -348,7 +348,7 @@ public class ByteBufExamples {
      * 代码清单 5-13 ByteBuf 上的 read()和 write()操作
      *
      * 2. read()和write()操作，从给定的索引开始，并且会根据已经访问过的字节数对索引进行调整。
-     *   writeXxx方法注意，表5-4中所列出的这些方法的参数是需要写入的值，而不是索引值。
+     *   writeXxx()方法注意，表5-4中所列出的这些方法的参数是需要写入的值，而不是索引值。
      *
      *     - readBoolean(): 返回当前readerIndex处的Boolean, 并将readerIndex增加1
      *     - writeBoolean (boolean): 在当前writerIndex处写入一个Boolean, 并将writerIndex增加1

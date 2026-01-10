@@ -10,7 +10,7 @@ import io.netty.util.concurrent.Future;
 import java.net.InetSocketAddress;
 
 /**
- * Listing 8.9 Graceful shutdown (优雅关闭)
+ * 代码清单 8-9 优雅关闭
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  * @author <a href="mailto:mawolfthal@gmail.com">Marvin Wolfthal</a>
@@ -22,7 +22,7 @@ public class GracefulShutdown {
     }
 
     /**
-     * Listing 8.9 Graceful shutdown (优雅关闭)
+     * 代码清单 8-9 优雅关闭
      *      代码清单8-9符合优雅关闭的定义。
      *
      * - 引导使你的应用程序启动并且运行起来，但是迟早你都需要优雅地将它关闭。当然，你也可以让JVM在退出时处理好一切，但是这不符合优雅的定义，优雅是指干净地释放资源。
@@ -33,20 +33,26 @@ public class GracefulShutdown {
      * - 或者，你也可以在调用EventLoopGroup.shutdownGracefully()方法之前，显式地在所有活动的Channel上调用Channel.close()方法。但是在任何情况下，都请记得关闭EventLoopGroup本身。
      */
     public void bootstrap() {
-        EventLoopGroup group = new NioEventLoopGroup(); // 创建处理I/O 的EventLoopGroup
-        Bootstrap bootstrap = new Bootstrap(); // 创建一个Bootstrap类的实例并配置它
+        //创建处理 I/O 的EventLoopGroup
+        EventLoopGroup group = new NioEventLoopGroup();
+        //创建一个 Bootstrap 类的实例并配置它
+        Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(group)
-                .channel(NioSocketChannel.class)
-                .handler(new SimpleChannelInboundHandler<ByteBuf>() {
-                             @Override
-                             protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
-                                 System.out.println("Received data");
-                             }
-                         }
-                );
-        // syncUninterruptibly()方法：阻塞等待这个future，直到它完成为止，如果这个future失败，则重新抛出失败的原因。
+             .channel(NioSocketChannel.class)
+             //...
+             .handler(
+                new SimpleChannelInboundHandler<ByteBuf>() {
+                    @Override
+                    protected void channelRead0(ChannelHandlerContext channelHandlerContext,
+                                                ByteBuf byteBuf) throws Exception {
+                        System.out.println("Received data");
+                    }
+                }
+             );
         bootstrap.connect(new InetSocketAddress("www.manning.com", 80)).syncUninterruptibly();
-        Future<?> future = group.shutdownGracefully(); // shutdownGracefully()方法将释放所有的资源，并且关闭所有的当前正在使用中的Channel
+        //,,,
+        //shutdownGracefully()方法将释放所有的资源，并且关闭所有的当前正在使用中的 Channel
+        Future<?> future = group.shutdownGracefully();
         // block until the group has shutdown
         future.syncUninterruptibly();
     }

@@ -8,8 +8,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.util.Objects;
+
 /**
- * Listing 9.4 Testing the AbsIntegerEncoder
+ * 代码清单9-4 测试 AbsIntegerEncoder
  *
  * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
  *
@@ -23,18 +25,24 @@ import static org.junit.Assert.*;
 public class AbsIntegerEncoderTest {
     @Test
     public void testEncoded() {
-        ByteBuf buf = Unpooled.buffer(); // 创建一个ByteBuf，并且写入9 个负整数
+        //(1) 创建一个 ByteBuf，并且写入 9 个负整数
+        ByteBuf buf = Unpooled.buffer();
         for (int i = 1; i < 10; i++) {
             buf.writeInt(i * -1);
         }
 
-        EmbeddedChannel channel = new EmbeddedChannel(new AbsIntegerEncoder()); // 创建一个EmbeddedChannel，并安装一个要测试的AbsIntegerEncoder
-        assertTrue(channel.writeOutbound(buf)); // 写入ByteBuf，并断言调用readOutbound()方法将会产生数据
-        assertTrue(channel.finish()); // 将该Channel标记为已完成状态
+        //(2) 创建一个EmbeddedChannel，并安装一个要测试的 AbsIntegerEncoder
+        EmbeddedChannel channel = new EmbeddedChannel(new AbsIntegerEncoder());
+        //(3) 写入 ByteBuf，并断言调用 readOutbound()方法将会产生数据
+        assertTrue(channel.writeOutbound(buf));
+        //(4) 将该 Channel 标记为已完成状态
+        assertTrue(channel.finish());
 
         // read bytes
-        for (int i = 1; i < 10; i++) { // 读取所产生的消息，并断言它们包含了对应的绝对值
-            assertEquals(i, channel.readOutbound());
+        //(5) 读取所产生的消息，并断言它们包含了对应的绝对值
+        for (int i = 1; i < 10; i++) {
+//            assertEquals(i, channel.readOutbound());
+            assertTrue(Objects.equals(i, channel.readOutbound()));
         }
         assertNull(channel.readOutbound());
     }
